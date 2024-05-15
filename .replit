@@ -1,0 +1,18 @@
+run = "flask run --host 0.0.0.0 --debug"
+entrypoint = "README.md"
+hidden = [".pythonlibs", "poetry.lock"]
+modules = ["python-3.10:v25-20230920-d4ad2e4"]
+
+[nix]
+channel = "stable-23_05"
+
+[unitTest]
+language = "python3"
+
+[deployment]
+run = "gunicorn --bind 0.0.0.0 app:app"
+deploymentTarget = "cloudrun"
+
+[[ports]]
+localPort = 5000
+externalPort = 80

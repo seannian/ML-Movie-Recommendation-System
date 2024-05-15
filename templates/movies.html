@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<br>
+<h2 class="bg-primary-subtle border border-primary-subtle text-primary-emphasis text-left p-4 rounded-3">Recommended Movies</h2>
+
+{% for movie in movies %}
+<div class="container bg-light-subtle border border-secondary-subtle text-secondary-emphasis text-left p-4 rounded-3">
+  <div class="row">
+    <div class="col text-center">
+      <img src="{{ movie['poster'] }}" alt="{{ movie['original_title'] }}" class="img-fluid" style="height: 300px">
+    </div>
+    <div class="col">
+      <br>
+      <h2><b>{{ movie['original_title'] }}</b></h2>
+      <p><em>Released: {{ movie['release_date'] }}</em></p>
+      <p><em>Average Rating: {{ movie['vote_average'] }}/10</em></p>
+      <p>{{ movie.overview }}</p>
+    </div>
+    <br>
+  </div>
+</div>
+<br>
+{% endfor %}
+
+{% endblock %}
