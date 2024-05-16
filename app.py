@@ -1,31 +1,22 @@
-from pprint import pprint
-from flask import Flask, jsonify, render_template, request, session, redirect, url_for
-from flask_bootstrap import Bootstrap5
-from requests import get
-
+import numpy as np
 import pandas as pd
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
-from surprise import Dataset, Reader
-from surprise import SVD
-from surprise.model_selection import train_test_split
-from surprise.prediction_algorithms.knns import KNNBasic
-from sklearn.model_selection import StratifiedShuffleSplit
-import numpy as np
-import ipywidgets as widgets
 import pickle
 import re
 
-algo = pickle.load(open('model.pkl', 'rb'))
-df = pd.read_pickle("./df.pkl")
-movies = pd.read_pickle("./movies.pkl")
-links = pd.read_pickle("./links.pkl")
-ratings = pd.read_pickle("./ratings.pkl")
-tags = pd.read_pickle("./tags.pkl")
-with open('vectorizer.pickle', 'rb') as handle:
+from flask import Flask, redirect, render_template, request, session, url_for
+from flask_bootstrap import Bootstrap5
+from requests import get
+from sklearn.metrics.pairwise import cosine_similarity
+
+algo = pickle.load(open('pickles/model.pkl', 'rb'))
+df = pd.read_pickle("pickles/df.pkl")
+movies = pd.read_pickle("pickles/movies.pkl")
+links = pd.read_pickle("pickles/links.pkl")
+ratings = pd.read_pickle("pickles/ratings.pkl")
+tags = pd.read_pickle("pickles/tags.pkl")
+with open('pickles/vectorizer.pickle', 'rb') as handle:
     vectorizer = pickle.load(handle)
-with open('tfidf.pickle', 'rb') as handle:
+with open('pickles/tfidf.pickle', 'rb') as handle:
     tfidf = pickle.load(handle)
 
 app = Flask(__name__)
@@ -37,7 +28,7 @@ app.secret_key = 'your_secret_key'
 def index():
     return render_template('index.html')
 
-
+# Handle submit requests
 @app.route('/submit', methods=['POST'])
 def submit():
     if request.method == 'POST':
@@ -51,6 +42,7 @@ def submit():
             ]
         return redirect(url_for('display_movies'))
 
+# Display Movies using loop
 @app.route('/display_movies')
 def display_movies():
     movieData = []
@@ -60,7 +52,7 @@ def display_movies():
             f'https://api.themoviedb.org/3/search/movie?query={movie}&api_key=e2b56f824d3987e10f41f792247e32ec'
         ).json()
         if not response['results']:
-            continue  
+            continue
         searchedMovie = response['results'][0]
         searchedMovie[
             'poster'] = f'http://image.tmdb.org/t/p/w500{searchedMovie["poster_path"]}'
@@ -72,6 +64,7 @@ if __name__ == "__main__":
     app.run(debug=True)
 
 
+# find movie given the input
 def search(title):
     query_vec = vectorizer.transform([title])
     similarity = cosine_similarity(query_vec, tfidf).flatten()
@@ -81,8 +74,9 @@ def search(title):
     return results
 
 
+# Given a movie id, return top 10 recommendations
 def get_top_n_recommendations(model, movie_id, n=10):
-    # Find similar movies to the given movie ID
+
     similar_movie_ids = find_similar_movies_cf_with_genre(movie_id)
     # Predict ratings for similar movies
     predictions = []
@@ -90,8 +84,7 @@ def get_top_n_recommendations(model, movie_id, n=10):
         prediction = model.predict(uid='dummy_user', iid=movie_id)
         predictions.append(prediction)
 
-
-    # Sort predictions by estimated rating in descending order
+    # Sort predictions from highest to lowest
     top_predictions = sorted(predictions, key=lambda x: x.est, reverse=True)
 
     # Retrieve movie names using their ids
@@ -104,12 +97,13 @@ def get_top_n_recommendations(model, movie_id, n=10):
     return top_n_movie_titles
 
 
+# Find similar movies based on movie genre
 def find_similar_movies_cf_with_genre(movie_id, n=10):
-    # Get genre information for the input movie
+
     input_movie_genres = movies[movies['movieId'] ==
                                 movie_id]['genres'].iloc[0]
 
-    # Filter similar movies by genre
+    # Filter by genre
     filtered_similar_movie_ids = []
     for movie_id in movies["movieId"]:
         movie_genres = movies[movies['movieId'] == movie_id]['genres'].iloc[0]

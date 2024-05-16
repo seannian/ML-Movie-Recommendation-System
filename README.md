@@ -1,4 +1,4 @@
 # Movie Recommendation System
 
 - Most code is in static, templates, and app.py
-- .pkl and .pickle are pickled files
+- .pkl and .pickle are pickled files in pickles folder
