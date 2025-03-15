@@ -13,6 +13,18 @@ This project is a web-based Movie Recommendation System that suggests movies bas
 - **Web Interface:** Built with Flask and Bootstrap for a user-friendly and responsive experience.
 - **Movie Details:** Fetches movie posters, release dates, ratings, and overviews from the TMDB API to display rich movie information.
 
+## Technologies Used
+
+- **Python:** Programming language for the backend logic and Flask application.
+- **Flask:** Web framework for building the web application.
+- **Bootstrap 5:** CSS framework for styling the web interface and ensuring responsiveness.
+- **Pandas:** Data manipulation and analysis library for handling movie datasets.
+- **scikit-learn:** Machine learning library, used for TF-IDF vectorization and cosine similarity.
+- **scikit-surprise (Surprise):** Recommender systems library, used for implementing the SVD collaborative filtering model.
+- **requests:** HTTP library for making requests to the TMDB API.
+- **Pickle:** Python module for serializing and de-serializing Python object structures (used for saving and loading models and data).
+- **HTML/CSS/JavaScript:** For the frontend structure and basic interactivity (managed by Flask and Bootstrap).
+- 
 ## Installation Instructions
 
 Follow these steps to set up and run the Movie Recommendation System locally:
@@ -102,17 +114,5 @@ Follow these steps to set up and run the Movie Recommendation System locally:
 3. **Exploring Recommendations:**
    - Scroll through the list of recommended movies to discover new movies you might enjoy.
    - The recommendations are genre-aware and are based on collaborative filtering, aiming to provide personalized suggestions.
-
-## Technologies Used
-
-- **Python:** Programming language for the backend logic and Flask application.
-- **Flask:** Web framework for building the web application.
-- **Bootstrap 5:** CSS framework for styling the web interface and ensuring responsiveness.
-- **Pandas:** Data manipulation and analysis library for handling movie datasets.
-- **scikit-learn:** Machine learning library, used for TF-IDF vectorization and cosine similarity.
-- **scikit-surprise (Surprise):** Recommender systems library, used for implementing the SVD collaborative filtering model.
-- **requests:** HTTP library for making requests to the TMDB API.
-- **Pickle:** Python module for serializing and de-serializing Python object structures (used for saving and loading models and data).
-- **HTML/CSS/JavaScript:** For the frontend structure and basic interactivity (managed by Flask and Bootstrap).
 
 ---
