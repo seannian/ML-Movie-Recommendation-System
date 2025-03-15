@@ -24,7 +24,7 @@ This project is a web-based Movie Recommendation System that suggests movies bas
 - **requests:** HTTP library for making requests to the TMDB API.
 - **Pickle:** Python module for serializing and de-serializing Python object structures (used for saving and loading models and data).
 - **HTML/CSS/JavaScript:** For the frontend structure and basic interactivity (managed by Flask and Bootstrap).
-- 
+
 ## Installation Instructions
 
 Follow these steps to set up and run the Movie Recommendation System locally:
