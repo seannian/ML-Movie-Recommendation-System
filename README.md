@@ -48,17 +48,22 @@ Follow these steps to set up and run the Movie Recommendation System locally:
    - Sign up for a free account on TMDB.
    - Go to your account settings and request an API key.
 
-4. **Configure TMDB API Key:**
-   - Open the `app.py` file.
-   - Locate the line:
-     ```python
-     response = get(
-         f'https://api.themoviedb.org/3/search/movie?query={movie}&api_key=e2b56f824d3987e10f41f792247e32ec'
-     ).json()
-     ```
-   - Replace `e2b56f824d3987e10f41f792247e32ec` with your TMDB API key.
+4.  **Create a Configuration File (`config.py`) and Set TMDB API Key:**
+    - In the root directory of your project, create a new Python file named `config.py`.
+    - Inside `config.py`, define a variable to store your TMDB API key:
 
-5. **Run the Flask application:**
+        ```python
+        TMDB_API_KEY = "YOUR_ACTUAL_TMDB_API_KEY_HERE"  # Replace with your API key
+        ```
+
+    - **Important:**  Replace `"YOUR_ACTUAL_TMDB_API_KEY_HERE"` with your *actual* TMDB API key.
+    - **Security Note:** This `config.py` file is intentionally *not* tracked by Git (see step 5). This prevents your API key from being accidentally committed to version control.
+
+5.  **Ensure `config.py` is Ignored by Git:**
+    - Make sure you have a `.gitignore` file in the root of your project.
+    - Verify that `.gitignore` contains the line `config.py` (or whatever you named your configuration file). This tells Git to ignore this file and prevent it from being committed.
+
+6. **Run the Flask application:**
    ```bash
    python app.py
    ```
@@ -74,7 +79,7 @@ Follow these steps to set up and run the Movie Recommendation System locally:
    * Debugger PIN: ...
    ```
 
-6. **Access the application in your browser:**
+7. **Access the application in your browser:**
    - Open your web browser and go to `http://127.0.0.1:5000` or `http://localhost:5000`.
 
 ## Usage Guide
